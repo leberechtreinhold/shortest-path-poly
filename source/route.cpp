@@ -83,6 +83,8 @@ Path RouteCalculator::CalculateRoute(const Route &route) {
         }
         if (PointToTheRightOrColinear(right_edge, new_right)) {
             if (PointToTheRight(right_edge, new_left) || apex.coord == right.coord) {
+            if (PointToTheRight(left_edge, new_right) ||
+                apex.coord == right.coord) {
                 spdlog::debug("{} is to the right of both the funnels, "
                               "continuing with next segment",
                               new_right);
