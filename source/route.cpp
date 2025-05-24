@@ -1,23 +1,9 @@
 #include "route.hpp"
+#include "geos_format.hpp"
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
-#include "geos_format.hpp"
 
 namespace lr::shortest_path {
-
-Route Route::GetRouteFromJson(const std::string_view &json_route) {
-    nlohmann::json parsed_json;
-    try {
-        parsed_json = nlohmann::json::parse(json_route);
-    } catch (const nlohmann::json::parse_error &e) {
-        spdlog::info("Failed to parse the route. Error: {} at {}", e.what(),
-                     e.byte);
-        throw;
-    }
-
-    Route route{};
-    return route;
-}
 
 Path RouteCalculator::CalculateRoute(const std::string_view &json_route) {
     auto route = Route::GetRouteFromJson(json_route);
@@ -32,8 +18,11 @@ Path RouteCalculator::CalculateRoute(const Route &route) {
         spdlog::warn("This route didn't have any required segments, setting "
                      "start to end straight.");
         path.points.push_back(route.end);
+        spdlog::debug("Calculated path: {}", path);
         return path;
     }
+    
+    spdlog::debug("Calculated path: {}", path);
     return path;
 }
 } // namespace lr::shortest_path

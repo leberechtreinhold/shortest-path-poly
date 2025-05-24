@@ -18,6 +18,7 @@ include(cmake/variables.cmake)
 add_library(
     shortest-path-poly_lib OBJECT
     source/route.cpp
+    source/route_parser.cpp
 )
 
 target_include_directories(

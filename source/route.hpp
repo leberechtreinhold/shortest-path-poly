@@ -25,4 +25,3 @@ class RouteCalculator {
     Path CalculateRoute(const Route &route);
 };
 } // namespace lr::shortest_path
-
