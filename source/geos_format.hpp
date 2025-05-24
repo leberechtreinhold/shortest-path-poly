@@ -28,7 +28,7 @@ struct fmt::formatter<lr::shortest_path::Path> : fmt::formatter<std::string> {
         std::stringstream ss;
         ss << "[";
         for (const auto &p : t.points) {
-            ss << fmt::format("{}", p);
+            ss << fmt::format("{}, ", p);
         }
         ss << "]";
         return fmt::format_to(ctx.out(), ss.str());
