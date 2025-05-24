@@ -2,7 +2,4 @@
 
 #include "route.hpp"
 
-TEST_CASE("Name is shortest-path-poly", "[route]")
-{
-  REQUIRE( 1 == 1 );
-}
+TEST_CASE("Name is shortest-path-poly", "[route]") { REQUIRE(1 == 1); }

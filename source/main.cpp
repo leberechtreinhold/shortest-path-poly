@@ -26,7 +26,8 @@ auto main(int argc, char **argv) -> int {
                                 "through segment (a polygon without holes).");
     args::HelpFlag help(parser, "help", "Display this help menu",
                         {'h', "help"});
-    args::Flag verbose(parser, "verbose", "Enables verbose logging", {'v', "verbose"});
+    args::Flag verbose(parser, "verbose", "Enables verbose logging",
+                       {'v', "verbose"});
     args::ValueFlag<std::string> input_path(
         parser, "path", "Path to the route file", {'i', "input"},
         args::Options::Required);
@@ -55,7 +56,7 @@ auto main(int argc, char **argv) -> int {
     }
 
     if (verbose) {
-      spdlog::set_level(spdlog::level::debug);
+        spdlog::set_level(spdlog::level::debug);
     }
 
     spdlog::info("Going to calculate route to {}", *input_path);
