@@ -3,7 +3,10 @@
 #include <cerrno>
 #include <filesystem>
 #include <fstream>
+
+#define SPDLOG_FMT_EXTERNAL
 #include <spdlog/spdlog.h>
+
 #include <sstream>
 #include <string>
 

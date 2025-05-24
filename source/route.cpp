@@ -1,6 +1,7 @@
 #include "route.hpp"
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
+#include "geos_format.hpp"
 
 namespace lr::shortest_path {
 
