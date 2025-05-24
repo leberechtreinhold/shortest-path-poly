@@ -52,20 +52,20 @@ Path RouteCalculator::CalculateRoute(const Route &route) {
         return path;
     }
 
-    auto apex = route.start;
+    auto apex = Point{route.start, 0};
     auto left = Point{route.segments[0].p0, 0};
     auto right = Point{route.segments[0].p1, 0};
 
-    geos::geom::LineSegment left_edge{apex, left.coord};
-    geos::geom::LineSegment right_edge{apex, right.coord};
+    geos::geom::LineSegment left_edge{apex.coord, left.coord};
+    geos::geom::LineSegment right_edge{apex.coord, right.coord};
 
     for (size_t i = 1; i < route.segments.size(); i++) {
         const auto &new_left = route.segments[i].p0;
-        // const auto &new_right = route.segments[i].p1;
+        const auto &new_right = route.segments[i].p1;
 
         if (PointToTheLeftOrColinear(left_edge, new_left)) {
-            if (PointToTheLeft(right_edge, new_left)) {
-                spdlog::debug("{} is to the left of both the funnel, "
+            if (PointToTheLeft(right_edge, new_left) || apex.coord == left.coord) {
+                spdlog::debug("{} is to the left of both the funnels, "
                               "continuing with next segment",
                               new_left);
                 left = Point{new_left, i};
@@ -74,6 +74,29 @@ Path RouteCalculator::CalculateRoute(const Route &route) {
                               "its a corner on {}:{}",
                               new_left, left_edge, right_edge, right.index,
                               right.coord);
+                path.points.push_back(right.coord);
+                apex = left = right;
+                left_edge = geos::geom::LineSegment{apex.coord, left.coord};
+                right_edge = geos::geom::LineSegment{apex.coord, right.coord};
+                i = apex.index;
+            }
+        }
+        if (PointToTheRightOrColinear(right_edge, new_right)) {
+            if (PointToTheRight(right_edge, new_left) || apex.coord == right.coord) {
+                spdlog::debug("{} is to the right of both the funnels, "
+                              "continuing with next segment",
+                              new_right);
+                left = Point{new_right, i};
+            } else {
+                spdlog::debug("{} is to the right of {} but not {}, which means "
+                              "its a corner on {}:{}",
+                              new_right, right_edge, left_edge, left.index,
+                              left.coord);
+                path.points.push_back(left.coord);
+                apex = right = left;
+                left_edge = geos::geom::LineSegment{apex.coord, left.coord};
+                right_edge = geos::geom::LineSegment{apex.coord, right.coord};
+                i = apex.index;
             }
         }
     }
