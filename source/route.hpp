@@ -10,7 +10,7 @@ namespace lr::shortest_path {
 struct Route {
     geos::geom::Coordinate start;
     geos::geom::Coordinate end;
-    std::vector<geos::geom::LineSegment> required_segments;
+    std::vector<geos::geom::LineSegment> segments;
 
     static Route GetRouteFromJson(const std::string_view &json_route);
 };

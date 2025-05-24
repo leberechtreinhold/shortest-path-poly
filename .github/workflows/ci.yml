@@ -148,6 +148,13 @@ jobs:
     - name: Install
       run: cmake --install build --config Release --prefix prefix
 
+    - name: Breakpoint if tests failed
+      if: failure()
+      uses: namespacelabs/breakpoint-action@v0
+      with:
+          duration: 30m
+          authorized-users: leberechtreinhold
+
     - name: Test
       working-directory: build
       run: ctest --output-on-failure --no-tests=error -C Release -j 2

@@ -5,7 +5,8 @@
 
 namespace lr::shortest_path {
 
-geos::geom::Coordinate ParseCoordinate(const nlohmann::json &json_coord) {
+static geos::geom::Coordinate
+ParseCoordinate(const nlohmann::json &json_coord) {
     bool valid_json = json_coord.contains("x") && json_coord["x"].is_number() &&
                       json_coord.contains("y") && json_coord["y"].is_number();
     if (!valid_json) {
@@ -17,8 +18,8 @@ geos::geom::Coordinate ParseCoordinate(const nlohmann::json &json_coord) {
     return geos::geom::Coordinate{json_coord["x"], json_coord["y"]};
 }
 
-geos::geom::LineSegment ParseSegment(const nlohmann::json &json_coord1,
-                                     const nlohmann::json &json_coord2) {
+static geos::geom::LineSegment ParseSegment(const nlohmann::json &json_coord1,
+                                            const nlohmann::json &json_coord2) {
     return geos::geom::LineSegment{ParseCoordinate(json_coord1),
                                    ParseCoordinate(json_coord2)};
 }
@@ -60,7 +61,7 @@ Route Route::GetRouteFromJson(const std::string_view &json_route) {
     for (size_t i = 0; i < parsed_json["segments"].size(); i += 2) {
         auto new_segment = ParseSegment(parsed_json["segments"][i],
                                         parsed_json["segments"][i + 1]);
-        route.required_segments.push_back(new_segment);
+        route.segments.push_back(new_segment);
     }
     spdlog::debug("Parsed route: {}", route);
     return route;

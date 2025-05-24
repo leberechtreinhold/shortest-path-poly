@@ -40,6 +40,6 @@ struct fmt::formatter<lr::shortest_path::Route> : fmt::formatter<std::string> {
     auto format(lr::shortest_path::Route t,
                 format_context &ctx) const -> decltype(ctx.out()) {
         return fmt::format_to(ctx.out(), "{{from {} to {} through {} segments",
-                              t.start, t.end, t.required_segments.size());
+                              t.start, t.end, t.segments.size());
     }
 };
