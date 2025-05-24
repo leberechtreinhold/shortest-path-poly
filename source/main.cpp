@@ -31,9 +31,10 @@ auto main(int argc, char **argv) -> int {
                         {'h', "help"});
     args::Flag verbose(parser, "verbose", "Enables verbose logging",
                        {'v', "verbose"});
-    args::ValueFlag<std::string> input_path(
-        parser, "path", "Path to the route file", {'i', "input"},
-        args::Options::Required);
+    args::ValueFlag<std::string> input_path(parser, "path",
+                                            "Path to the route file",
+                                            {'i', "input"},
+                                            args::Options::Required);
 
     try {
         parser.ParseCLI(argc, argv);

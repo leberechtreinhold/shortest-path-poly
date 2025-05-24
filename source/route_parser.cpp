@@ -10,9 +10,9 @@ ParseCoordinate(const nlohmann::json &json_coord) {
     bool valid_json = json_coord.contains("x") && json_coord["x"].is_number() &&
                       json_coord.contains("y") && json_coord["y"].is_number();
     if (!valid_json) {
-        spdlog::error(
-            "The json doesn't have a correct coordinate formatting. JSON: {}",
-            json_coord.dump());
+        spdlog::error("The json doesn't have a correct coordinate formatting. "
+                      "JSON: {}",
+                      json_coord.dump());
         throw("Incorrect format");
     }
     return geos::geom::Coordinate{json_coord["x"], json_coord["y"]};
@@ -45,9 +45,9 @@ Route Route::GetRouteFromJson(const std::string_view &json_route) {
                               parsed_json["segments"].is_array() &&
                               parsed_json["segments"].size() % 2 == 0;
     if (!has_minimum_fields) {
-        spdlog::error(
-            "The json doesn't have a correct route formatting. JSON: {}",
-            parsed_json.dump());
+        spdlog::
+            error("The json doesn't have a correct route formatting. JSON: {}",
+                  parsed_json.dump());
         throw("Incorrect format");
     }
     Route route{};
