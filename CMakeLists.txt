@@ -35,8 +35,10 @@ target_link_libraries(shortest-path-poly_lib PRIVATE fmt::fmt)
 find_package(GEOS CONFIG REQUIRED)
 target_link_libraries(shortest-path-poly_lib PRIVATE GEOS::geos)
 
+add_definitions(-DSPDLOG_HEADER_ONLY)
 find_package(spdlog CONFIG REQUIRED)
-target_link_libraries(shortest-path-poly_lib PRIVATE spdlog::spdlog)
+target_compile_definitions(shortest-path-poly_lib PRIVATE SPDLOG_HEADER_ONLY)
+target_link_libraries(shortest-path-poly_lib PRIVATE spdlog::spdlog_header_only)
 
 # ---- Declare executable ----
 
