@@ -21,7 +21,7 @@ Path RouteCalculator::CalculateRoute(const Route &route) {
         spdlog::debug("Calculated path: {}", path);
         return path;
     }
-    
+
     spdlog::debug("Calculated path: {}", path);
     return path;
 }

@@ -3,7 +3,6 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
-
 namespace lr::shortest_path {
 
 geos::geom::Coordinate ParseCoordinate(const nlohmann::json &json_coord) {
