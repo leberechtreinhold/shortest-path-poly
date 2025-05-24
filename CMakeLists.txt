@@ -17,7 +17,7 @@ include(cmake/variables.cmake)
 
 add_library(
     shortest-path-poly_lib OBJECT
-    source/lib.cpp
+    source/route.cpp
 )
 
 target_include_directories(
@@ -31,6 +31,12 @@ target_compile_features(shortest-path-poly_lib PUBLIC cxx_std_17)
 find_package(fmt REQUIRED)
 target_link_libraries(shortest-path-poly_lib PRIVATE fmt::fmt)
 
+find_package(GEOS CONFIG REQUIRED)
+target_link_libraries(shortest-path-poly_lib PRIVATE GEOS::geos)
+
+find_package(spdlog CONFIG REQUIRED)
+target_link_libraries(shortest-path-poly_lib PRIVATE spdlog::spdlog)
+
 # ---- Declare executable ----
 
 add_executable(shortest-path-poly_exe source/main.cpp)
@@ -41,6 +47,10 @@ set_property(TARGET shortest-path-poly_exe PROPERTY OUTPUT_NAME shortest-path-po
 target_compile_features(shortest-path-poly_exe PRIVATE cxx_std_17)
 
 target_link_libraries(shortest-path-poly_exe PRIVATE shortest-path-poly_lib)
+
+
+find_package(args CONFIG REQUIRED)
+target_link_libraries(shortest-path-poly_exe PRIVATE taywee::args)
 
 # ---- Install rules ----
 

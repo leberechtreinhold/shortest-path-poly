@@ -5,7 +5,12 @@
     {
       "name": "fmt",
       "version>=": "11.0.2#1"
-    }
+    },
+    "nlohmann-json",
+    "args",
+    "geos",
+    "spdlog",
+    "tl-expected"
   ],
   "default-features": [],
   "features": {
