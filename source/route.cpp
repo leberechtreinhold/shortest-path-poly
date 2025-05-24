@@ -18,8 +18,8 @@ static inline bool PointToTheLeft(const geos::geom::LineSegment &s,
 
 static inline bool PointToTheLeftOrColinear(const geos::geom::LineSegment &s,
                                             const geos::geom::Coordinate &p) {
-    const auto orienation = s.orientationIndex(p);
-    return orienation == 0 || orienation == 1;
+    const auto orientation = s.orientationIndex(p);
+    return orientation == 0 || orientation == 1;
 }
 
 static inline bool PointToTheRight(const geos::geom::LineSegment &s,
@@ -29,8 +29,8 @@ static inline bool PointToTheRight(const geos::geom::LineSegment &s,
 
 static inline bool PointToTheRightOrColinear(const geos::geom::LineSegment &s,
                                              const geos::geom::Coordinate &p) {
-    const auto orienation = s.orientationIndex(p);
-    return orienation == 0 || orienation == -1;
+    const auto orientation = s.orientationIndex(p);
+    return orientation == 0 || orientation == -1;
 }
 
 // Since funnel requires keeping the segment reference and the coordinate,
@@ -61,7 +61,7 @@ Path RouteCalculator::CalculateRoute(const Route &route) {
 
     for (size_t i = 1; i < route.segments.size(); i++) {
         const auto &new_left = route.segments[i].p0;
-        //const auto &new_right = route.segments[i].p1;
+        // const auto &new_right = route.segments[i].p1;
 
         if (PointToTheLeftOrColinear(left_edge, new_left)) {
             if (PointToTheLeft(right_edge, new_left)) {
