@@ -1,8 +1,8 @@
 #pragma once
 
 #include <geos.h>
-#include <string>
 #include <nlohmann/json.hpp>
+#include <string>
 #include <vector>
 
 namespace lr::shortest_path {
@@ -25,4 +25,10 @@ class RouteCalculator {
     Path CalculateRoute(const Route &route);
     nlohmann::json ResultToJson(const Route &route, const Path &calculated);
 };
+
+namespace utils {
+std::string read_file_contents(const std::filesystem::path &path);
+void write_file_contents(const std::filesystem::path &path,
+                         const std::string_view &content);
+} // namespace utils
 } // namespace lr::shortest_path

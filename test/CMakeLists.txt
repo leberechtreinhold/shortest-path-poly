@@ -20,6 +20,7 @@ target_link_libraries(
 target_compile_features(shortest-path-poly_test PRIVATE cxx_std_17)
 
 catch_discover_tests(shortest-path-poly_test)
+file(COPY "data" DESTINATION ${CMAKE_BINARY_DIR}/test)
 
 # ---- End-of-file commands ----
 

@@ -19,6 +19,7 @@ add_library(
     shortest-path-poly_lib OBJECT
     source/route.cpp
     source/route_parser.cpp
+    source/utils.cpp
 )
 
 target_include_directories(
