@@ -2,7 +2,7 @@
 
 [![Continuous Integration](https://github.com/leberechtreinhold/shortest-path-poly/actions/workflows/ci.yml/badge.svg)](https://github.com/leberechtreinhold/shortest-path-poly/actions/workflows/ci.yml)
 
-This projects calculates a path between points crossing a bunch of segments (basically, travesing a triangulated polygon). Currently the algorithm implemented is funnel.
+This projects calculates a path between points crossing a bunch of segments (basically, traversing a triangulated polygon). Currently the algorithm implemented is funnel.
 
 # Running
 
