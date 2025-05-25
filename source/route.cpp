@@ -75,8 +75,8 @@ Path RouteCalculator::CalculateRoute(const Route &route) {
                 left = Point{new_left, i};
                 left_edge = geos::geom::LineSegment{apex.coord, left.coord};
             } else {
-                spdlog::debug("{} is to the left of {} but not {}, which means "
-                              "its a corner on {}:{}",
+                spdlog::debug("{} is to the left of {} but not {}, "
+                              "which means its a corner on {}:{}",
                               new_left, left_edge, right_edge, right.index,
                               right.coord);
                 path.points.push_back(right.coord);
@@ -99,11 +99,10 @@ Path RouteCalculator::CalculateRoute(const Route &route) {
                 right = Point{new_right, i};
                 right_edge = geos::geom::LineSegment{apex.coord, right.coord};
             } else {
-                spdlog::
-                    debug("{} is to the right of {} but not {}, which means "
-                          "its a corner on {}:{}",
-                          new_right, right_edge, left_edge, left.index,
-                          left.coord);
+                spdlog::debug("{} is to the right of {} but not {}, "
+                              "which means its a corner on{} : {} ",
+                              new_right, right_edge, left_edge, left.index,
+                              left.coord);
                 path.points.push_back(left.coord);
                 apex = right = left;
                 left_edge = geos::geom::LineSegment{apex.coord, left.coord};
@@ -113,6 +112,18 @@ Path RouteCalculator::CalculateRoute(const Route &route) {
             }
         }
     }
+    if (apex.coord != left.coord && PointToTheLeft(left_edge, route.end)) {
+
+        spdlog::debug("Corner reaching {} from {} due to {} being to the left",
+                      route.end, apex.coord, left.coord);
+        path.points.push_back(left.coord);
+    }
+    if (apex.coord != right.coord && PointToTheRight(right_edge, route.end)) {
+        spdlog::debug("Corner reaching {} from {} due to {} being to the right",
+                      route.end, apex.coord, right.coord);
+        path.points.push_back(right.coord);
+    }
+
     path.points.push_back(route.end);
     spdlog::debug("Calculated path: {}", path);
     return path;

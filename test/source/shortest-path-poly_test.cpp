@@ -44,3 +44,33 @@ TEST_CASE("TestSkipSegmentMiddle", "[route]") {
     REQUIRE(path.points[0] == route.start);
     REQUIRE(path.points[1] == route.end);
 }
+
+TEST_CASE("TestUseSingleSegment", "[route]") {
+    Route route;
+    route.start = {1, 1};
+    route.end = {1, 5};
+    route.segments.push_back({{8, 3}, {10, 3}});
+
+    RouteCalculator calculator;
+    auto path = calculator.CalculateRoute(route);
+    REQUIRE(path.points.size() == 3);
+    REQUIRE(path.points[0] == route.start);
+    REQUIRE(path.points[1] == geos::geom::Coordinate{8, 3});
+    REQUIRE(path.points[2] == route.end);
+}
+
+TEST_CASE("TestZiZag", "[route]") {
+    Route route;
+    route.start = {3, 1};
+    route.end = {3, 5};
+    route.segments.push_back({{8, 3}, {10, 3}});
+    route.segments.push_back({{0, 4}, {2, 4}});
+
+    RouteCalculator calculator;
+    auto path = calculator.CalculateRoute(route);
+    REQUIRE(path.points.size() == 4);
+    REQUIRE(path.points[0] == route.start);
+    REQUIRE(path.points[1] == geos::geom::Coordinate{8, 3});
+    REQUIRE(path.points[2] == geos::geom::Coordinate{2, 4});
+    REQUIRE(path.points[3] == route.end);
+}
