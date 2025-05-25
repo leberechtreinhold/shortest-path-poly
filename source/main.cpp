@@ -23,6 +23,15 @@ std::string read_file_contents(const std::filesystem::path &path) {
     return contents.str();
 }
 
+void write_file_contents(const std::filesystem::path &path,
+                         const std::string_view &content) {
+    std::ofstream out(path.string(), std::ios::out);
+    if (!out) {
+        spdlog::error("Failed to open file {}", errno);
+        throw(errno);
+    }
+    out << content;
+}
 auto main(int argc, char **argv) -> int {
     args::ArgumentParser parser("Shortest Path Polygon.",
                                 "Calculates the shortest path that goes "
@@ -35,6 +44,9 @@ auto main(int argc, char **argv) -> int {
                                             "Path to the route file",
                                             {'i', "input"},
                                             args::Options::Required);
+    args::ValueFlag<std::string> output_path(parser, "output_path",
+                                             "Path to the output file",
+                                             {'o', "output"});
 
     try {
         parser.ParseCLI(argc, argv);
@@ -59,6 +71,13 @@ auto main(int argc, char **argv) -> int {
         return 1;
     }
 
+    if (output_path && std::filesystem::exists(*output_path)) {
+        std::cerr << "The output " << *input_path
+                  << " already exists, and cannot be used as option.";
+        std::cerr << parser;
+        return 1;
+    }
+
     if (verbose) {
         spdlog::set_level(spdlog::level::debug);
     }
@@ -67,8 +86,11 @@ auto main(int argc, char **argv) -> int {
     auto data = read_file_contents(*input_path);
     spdlog::debug("Processing {} bytes of data", data.size());
 
-    auto path = lr::shortest_path::RouteCalculator::CalculateRoute(data);
-    spdlog::info("Processed path has {} points", path.points.size());
+    auto json_result = lr::shortest_path::RouteCalculator::CalculateRoute(data);
+    spdlog::info("Processed path!");
 
-    return 0;
+    if (output_path) {
+        write_file_contents(*output_path, json_result.dump(4));
+        spdlog::info("Result is stored on {}", *output_path);
+    }
 }

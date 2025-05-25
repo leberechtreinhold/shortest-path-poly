@@ -5,10 +5,11 @@
 
 namespace lr::shortest_path {
 
-Path RouteCalculator::CalculateRoute(const std::string_view &json_route) {
+nlohmann::json RouteCalculator::CalculateRoute(const std::string_view &json_route) {
     auto route = Route::GetRouteFromJson(json_route);
     RouteCalculator calculator;
-    return calculator.CalculateRoute(route);
+    auto path = calculator.CalculateRoute(route);
+    return calculator.ResultToJson(route, path);
 }
 
 static inline bool PointToTheLeft(const geos::geom::LineSegment &s,

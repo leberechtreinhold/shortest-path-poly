@@ -3,6 +3,17 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
+namespace geos::geom {
+void to_json(nlohmann::json &j, const Coordinate &p) {
+    j = { p.x, p.y};
+}
+
+void to_json(nlohmann::json &j, const LineSegment &s) {
+    j = { s.p0, s.p1 };
+}
+
+} // namespace geos::geom
+
 namespace lr::shortest_path {
 
 static geos::geom::Coordinate
@@ -67,4 +78,30 @@ Route Route::GetRouteFromJson(const std::string_view &json_route) {
     return route;
 }
 
+struct person {
+    std::string name;
+    std::string address;
+    int age;
+};
+void to_json(nlohmann::json &j, const person &p) {
+    j = nlohmann::json{{"name", p.name},
+                       {"address", p.address},
+                       {"age", p.age}};
+}
+
+nlohmann::json RouteCalculator::ResultToJson(const Route &route, const Path &calculated) {
+    nlohmann::json js;
+    for (const auto &p : calculated.points) {
+        js["path"].push_back(p);
+    }
+    js["start"] = route.start;
+    js["end"] = route.end;
+
+    js["segments"] = nlohmann::json::array();
+    for (const auto &s : route.segments) {
+        js["segments"].push_back(s);
+    }
+
+    return js;
+}
 } // namespace lr::shortest_path

@@ -2,7 +2,7 @@
 
 #include <geos.h>
 #include <string>
-#include <tl/expected.hpp>
+#include <nlohmann/json.hpp>
 #include <vector>
 
 namespace lr::shortest_path {
@@ -21,7 +21,8 @@ struct Path {
 
 class RouteCalculator {
   public:
-    static Path CalculateRoute(const std::string_view &json_route);
+    static nlohmann::json CalculateRoute(const std::string_view &json_route);
     Path CalculateRoute(const Route &route);
+    nlohmann::json ResultToJson(const Route &route, const Path &calculated);
 };
 } // namespace lr::shortest_path
