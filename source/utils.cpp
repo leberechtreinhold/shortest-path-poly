@@ -1,10 +1,10 @@
 #include "route.hpp"
 
-#include <fstream>
-#include <sstream>
 #include <filesystem>
-#include <string>
+#include <fstream>
 #include <spdlog/spdlog.h>
+#include <sstream>
+#include <string>
 
 namespace lr::shortest_path::utils {
 std::string read_file_contents(const std::filesystem::path &path) {
@@ -28,4 +28,4 @@ void write_file_contents(const std::filesystem::path &path,
     out << content;
 }
 
-}
+} // namespace lr::shortest_path::utils

@@ -12,9 +12,7 @@ TEST_CASE("TestEndToEnd", "[route]") {
     p /= "basic_route.json";
 
     std::string data;
-    REQUIRE_NOTHROW([&]() {
-        data = ::utils::read_file_contents(p);
-    }());
+    REQUIRE_NOTHROW([&]() { data = ::utils::read_file_contents(p); }());
     size_t result_size = 0;
     REQUIRE_NOTHROW([&]() {
         auto result = RouteCalculator::CalculateRoute(data);
@@ -25,8 +23,8 @@ TEST_CASE("TestEndToEnd", "[route]") {
 
 TEST_CASE("TestNoSegments", "[route]") {
     Route route;
-    route.start = {0,0};
-    route.end = {1,1};
+    route.start = {0, 0};
+    route.end = {1, 1};
     RouteCalculator calculator;
     auto path = calculator.CalculateRoute(route);
     REQUIRE(path.points.size() == 2);
@@ -36,9 +34,9 @@ TEST_CASE("TestNoSegments", "[route]") {
 
 TEST_CASE("TestSkipSegmentMiddle", "[route]") {
     Route route;
-    route.start = {1,1};
-    route.end = {1,5};
-    route.segments.push_back({{0, 3},{5,3}});
+    route.start = {1, 1};
+    route.end = {1, 5};
+    route.segments.push_back({{0, 3}, {5, 3}});
 
     RouteCalculator calculator;
     auto path = calculator.CalculateRoute(route);

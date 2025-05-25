@@ -5,7 +5,8 @@
 
 namespace lr::shortest_path {
 
-nlohmann::json RouteCalculator::CalculateRoute(const std::string_view &json_route) {
+nlohmann::json
+RouteCalculator::CalculateRoute(const std::string_view &json_route) {
     auto route = Route::GetRouteFromJson(json_route);
     RouteCalculator calculator;
     auto path = calculator.CalculateRoute(route);
@@ -70,8 +71,7 @@ Path RouteCalculator::CalculateRoute(const Route &route) {
         if (PointToTheRightOrColinear(left_edge, new_left)) {
             if (PointToTheLeft(right_edge, new_left) ||
                 apex.coord == left.coord) {
-                spdlog::debug("{} is between funnels, tightening",
-                              new_left);
+                spdlog::debug("{} is between funnels, tightening", new_left);
                 left = Point{new_left, i};
                 left_edge = geos::geom::LineSegment{apex.coord, left.coord};
             } else {
@@ -95,8 +95,7 @@ Path RouteCalculator::CalculateRoute(const Route &route) {
         if (PointToTheLeftOrColinear(right_edge, new_right)) {
             if (PointToTheRight(left_edge, new_right) ||
                 apex.coord == right.coord) {
-                spdlog::debug("{} is between funnels, tightening",
-                              new_right);
+                spdlog::debug("{} is between funnels, tightening", new_right);
                 right = Point{new_right, i};
                 right_edge = geos::geom::LineSegment{apex.coord, right.coord};
             } else {

@@ -9,7 +9,6 @@
 
 #include "route.hpp"
 
-
 auto main(int argc, char **argv) -> int {
     args::ArgumentParser parser("Shortest Path Polygon.",
                                 "Calculates the shortest path that goes "
@@ -68,7 +67,8 @@ auto main(int argc, char **argv) -> int {
     spdlog::info("Processed path!");
 
     if (output_path) {
-        lr::shortest_path::utils::write_file_contents(*output_path, json_result.dump(4));
+        lr::shortest_path::utils::write_file_contents(*output_path,
+                                                      json_result.dump(4));
         spdlog::info("Result is stored on {}", *output_path);
     }
 }
