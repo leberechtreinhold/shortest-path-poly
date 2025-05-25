@@ -23,8 +23,8 @@ TEST_CASE("TestEndToEnd", "[route]") {
 
 TEST_CASE("TestNoSegments", "[route]") {
     Route route;
-    route.start = {0, 0};
-    route.end = {1, 1};
+    route.start = geos::geom::Coordinate{0, 0};
+    route.end = geos::geom::Coordinate{1, 1};
     RouteCalculator calculator;
     auto path = calculator.CalculateRoute(route);
     REQUIRE(path.points.size() == 2);
@@ -34,9 +34,9 @@ TEST_CASE("TestNoSegments", "[route]") {
 
 TEST_CASE("TestSkipSegmentMiddle", "[route]") {
     Route route;
-    route.start = {1, 1};
-    route.end = {1, 5};
-    route.segments.push_back({{0, 3}, {5, 3}});
+    route.start = geos::geom::Coordinate{1, 1};
+    route.end = geos::geom::Coordinate{1, 5};
+    route.segments.push_back(geos::geom::LineSegment{{0, 3}, {5, 3}});
 
     RouteCalculator calculator;
     auto path = calculator.CalculateRoute(route);
@@ -47,9 +47,9 @@ TEST_CASE("TestSkipSegmentMiddle", "[route]") {
 
 TEST_CASE("TestUseSingleSegment", "[route]") {
     Route route;
-    route.start = {1, 1};
-    route.end = {1, 5};
-    route.segments.push_back({{8, 3}, {10, 3}});
+    route.start = geos::geom::Coordinate{1, 1};
+    route.end = geos::geom::Coordinate{1, 5};
+    route.segments.push_back(geos::geom::LineSegment{{8, 3}, {10, 3}});
 
     RouteCalculator calculator;
     auto path = calculator.CalculateRoute(route);
@@ -61,10 +61,10 @@ TEST_CASE("TestUseSingleSegment", "[route]") {
 
 TEST_CASE("TestZiZag", "[route]") {
     Route route;
-    route.start = {3, 1};
-    route.end = {3, 5};
-    route.segments.push_back({{8, 3}, {10, 3}});
-    route.segments.push_back({{0, 4}, {2, 4}});
+    route.start = geos::geom::Coordinate{3, 1};
+    route.end = geos::geom::Coordinate{3, 5};
+    route.segments.push_back(geos::geom::LineSegment{{8, 3}, {10, 3}});
+    route.segments.push_back(geos::geom::LineSegment{{0, 4}, {2, 4}});
 
     RouteCalculator calculator;
     auto path = calculator.CalculateRoute(route);
